@@ -22,20 +22,26 @@ cc.Class({
         initY:0,
         hasY:3,
         color:0,
+        title:cc.Label,
+        mTitleKey:"",
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.initY = this.node.y
-        this.color = Math.floor(Math.random() * 3);
-        if(this.color == 0){
-            this.node.color = new cc.color(255,0,0,255)
-        }else if(this.color == 1){
-            this.node.color = new cc.color(0,255,0,255)
-        }else if(this.color == 2){
-            this.node.color = new cc.color(0,0,255,255)
-        }
+
+        this.mTitleKey = Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)]
+        this.title.string = this.mTitleKey
+
+        // this.color = Math.floor(Math.random() * 3);
+        // if(this.color == 0){
+        //     this.node.color = new cc.color(255,0,0,255)
+        // }else if(this.color == 1){
+        //     this.node.color = new cc.color(0,255,0,255)
+        // }else if(this.color == 2){
+        //     this.node.color = new cc.color(0,0,255,255)
+        // }
 
     },
 
@@ -73,7 +79,6 @@ cc.Class({
             this.isOver = true;
 
             this.tx = Math.floor((this.initY - this.node.y)/this.node.height) - 1
-            console.log(this.tx + "->" + this.ty)
             Global.gameObj.lArray[this.tx][this.ty] = this
             if(this.tx != 0){
                 this.node.x = (this.ty - 3) * this.node.width
@@ -94,16 +99,36 @@ cc.Class({
         }
     },
 
-    checkAround(tetryNode){
+    checkAround(otx,oty){
         let that = this
+        let tetryNode = Global.gameObj.lArray[otx][oty]
+
         if(tetryNode == null){
             return false
         }
         let tetry = tetryNode.getComponent('Tetry')
-        console.log("around color" + tetry.color + " this color " + this.color)
-        if(tetry.color == this.color){
+
+        let key1 = tetry.mTitleKey+this.mTitleKey
+        let key2 = this.mTitleKey + tetry.mTitleKey
+
+        console.log(key1 + "->" + key2)
+        let useKey = null
+        if(Global.dictory[key1] == undefined){
+            if(Global.dictory[key2] != undefined){
+                useKey = key2
+            }
+        }else{
+            useKey = key1
+        }
+        if(useKey){
+            console.log(useKey + "=>" + Global.dictory[useKey])
             var moveFinsih = cc.callFunc(function(target){
+
+                tetryNode.title.string = Global.dictory[useKey]
+                tetryNode.mTitleKey = Global.dictory[useKey]
+
                 Global.gameObj.lArray[that.tx][that.ty] = null
+                that.node.destroy()
             })
 
             //颜色一样，进行合并
@@ -117,31 +142,19 @@ cc.Class({
     getAroundTetry(){
         //bottom
         if(this.tx != 9){
-            let tetry =  Global.gameObj.lArray[this.tx + 1][this.ty]
-            if(tetry){
-                console.log("bottom")
-            }
-            if(this.checkAround(tetry)){
+            if(this.checkAround(this.tx + 1,this.ty)){
                 return 
             }
         }
         //left
         if(this.ty != 0){
-            let tetry =  Global.gameObj.lArray[this.tx][this.ty - 1]
-            if(tetry){
-                console.log("left")
-            }
-            if(this.checkAround(tetry)){
+            if(this.checkAround(this.tx,this.ty - 1)){
                 return 
             }
         }
         //right
         if(this.ty != 6){
-            let tetry =  Global.gameObj.lArray[this.tx][this.ty + 1]
-            if(tetry){
-                console.log("right")
-            }
-            if(this.checkAround(tetry)){
+            if(this.checkAround(this.tx,this.ty + 1)){
                 return 
             }
         }
