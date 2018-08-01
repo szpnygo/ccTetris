@@ -68,7 +68,7 @@ cc.Class({
 
 
     setInputControl: function () {
-        this.node.on(cc.Node.EventType.MOUSE_DOWN, this._mouseDown, this);
+        this.node.on(cc.Node.EventType.TOUCH_START, this._mouseDown, this);
     },
 
     _mouseDown: function(event){
