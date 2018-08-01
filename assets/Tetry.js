@@ -21,12 +21,22 @@ cc.Class({
         ty:3,
         initY:0,
         hasY:3,
+        color:0,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.initY = this.node.y
+        this.color = Math.floor(Math.random() * 3);
+        if(this.color == 0){
+            this.node.color = new cc.color(255,0,0,255)
+        }else if(this.color == 1){
+            this.node.color = new cc.color(0,255,0,255)
+        }else if(this.color == 2){
+            this.node.color = new cc.color(0,0,255,255)
+        }
+
     },
 
     start () {
@@ -66,9 +76,10 @@ cc.Class({
             console.log(this.tx + "->" + this.ty)
             Global.gameObj.lArray[this.tx][this.ty] = this
             if(this.tx != 0){
-                Global.gameObj.tetryStop();
                 this.node.x = (this.ty - 3) * this.node.width
                 this.node.y = Global.gameObj.baseLineY + (10-this.tx) * this.node.height - this.node.height/2;
+                this.getAroundTetry()
+                Global.gameObj.tetryStop();
             }else{
                 console.log("game over");
                 for(var i =9; i> 0;i--){
@@ -79,6 +90,59 @@ cc.Class({
                         }
                     }
                 }
+            }
+        }
+    },
+
+    checkAround(tetryNode){
+        let that = this
+        if(tetryNode == null){
+            return false
+        }
+        let tetry = tetryNode.getComponent('Tetry')
+        console.log("around color" + tetry.color + " this color " + this.color)
+        if(tetry.color == this.color){
+            var moveFinsih = cc.callFunc(function(target){
+                Global.gameObj.lArray[that.tx][that.ty] = null
+            })
+
+            //颜色一样，进行合并
+            let seq = cc.sequence(cc.moveTo(0.2, cc.p(tetryNode.node.x, tetryNode.node.y)), moveFinsih);
+            this.node.runAction(seq)
+            return true
+        }
+        return false
+    },
+
+    getAroundTetry(){
+        //bottom
+        if(this.tx != 9){
+            let tetry =  Global.gameObj.lArray[this.tx + 1][this.ty]
+            if(tetry){
+                console.log("bottom")
+            }
+            if(this.checkAround(tetry)){
+                return 
+            }
+        }
+        //left
+        if(this.ty != 0){
+            let tetry =  Global.gameObj.lArray[this.tx][this.ty - 1]
+            if(tetry){
+                console.log("left")
+            }
+            if(this.checkAround(tetry)){
+                return 
+            }
+        }
+        //right
+        if(this.ty != 6){
+            let tetry =  Global.gameObj.lArray[this.tx][this.ty + 1]
+            if(tetry){
+                console.log("right")
+            }
+            if(this.checkAround(tetry)){
+                return 
             }
         }
     },
