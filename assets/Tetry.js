@@ -87,14 +87,6 @@ cc.Class({
                 Global.gameObj.tetryStop();
             }else{
                 console.log("game over");
-                for(var i =9; i> 0;i--){
-                    console.log(i + " line ========")
-                    for(var j=0; j<7;j++){
-                        if(Global.gameObj.lArray[i][j] != null){
-                            console.log(j + " has")
-                        }
-                    }
-                }
             }
         }
     },
@@ -129,6 +121,8 @@ cc.Class({
 
                 Global.gameObj.lArray[that.tx][that.ty] = null
                 that.node.destroy()
+                console.log("check again")
+                tetry.getAroundTetry()
             })
 
             //颜色一样，进行合并

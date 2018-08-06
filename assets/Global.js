@@ -12,7 +12,7 @@ dictory['林木'] = '森'
 dictory['口木'] = '呆'
 dictory['干木'] = '杆'
 dictory['月月'] = '朋'
-dictory['口土'] = '吐'
+// dictory['口土'] = '吐'
 dictory['一干'] = '王'
 dictory['日王'] = '旺'
 dictory['田土'] = '里'
@@ -32,8 +32,11 @@ dictory['天口'] = '吞'
 dictory['口大'] = '因'
 dictory['口木'] = '困'
 
+// let keyDictory = [
+//     '一','十','二','人','木','干','土','口'
+// ]
 let keyDictory = [
-    '一','十','二','日','人','木','干','月','土','王','从','吕','口'
+    '一','土','口'
 ]
 module.exports ={
     gameObj:null,
