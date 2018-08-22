@@ -74,16 +74,25 @@ cc.Class({
 
 
     setInputControl: function () {
-        this.node.on(cc.Node.EventType.TOUCH_START, this._mouseDown, this);
+        // this.node.on(cc.Node.EventType.TOUCH_START, this._mouseDown, this);
     },
 
     _mouseDown: function(event){
-        let tetyr = this.currentTetry.getComponent('Tetry')
+        
         if(event.getLocationX() < this.node.width/2){
             tetyr.doLeft()
         }else{
             tetyr.doRight()
         }
-    }
+    },
 
+    clickLeft: function(){
+        let tetry = this.currentTetry.getComponent('Tetry')
+        tetry.doLeft()
+    },
+
+    clickRight: function(){
+        let tetry = this.currentTetry.getComponent('Tetry')
+        tetry.doRight()
+    }
 });
