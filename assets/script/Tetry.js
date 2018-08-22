@@ -26,23 +26,11 @@ cc.Class({
         mTitleKey:"",
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
     onLoad () {
         this.initY = this.node.y
 
         this.mTitleKey = Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)]
         this.title.string = this.mTitleKey
-
-        // this.color = Math.floor(Math.random() * 3);
-        // if(this.color == 0){
-        //     this.node.color = new cc.color(255,0,0,255)
-        // }else if(this.color == 1){
-        //     this.node.color = new cc.color(0,255,0,255)
-        // }else if(this.color == 2){
-        //     this.node.color = new cc.color(0,0,255,255)
-        // }
-
     },
 
     start () {
@@ -129,6 +117,7 @@ cc.Class({
             //颜色一样，进行合并
             let seq = cc.sequence(cc.moveTo(0.2, cc.v2(tetryNode.node.x, tetryNode.node.y)), moveFinsih);
             this.node.runAction(seq)
+            Global.gameObj.addPoint()
             return true
         }
         return false

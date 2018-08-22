@@ -24,6 +24,9 @@ cc.Class({
         mainView: cc.Node,
 
         tetryHeight:8,
+
+        pointLabel: cc.Label,
+        point:0,
     },
 
     onLoad () {
@@ -40,6 +43,13 @@ cc.Class({
 
         this.setInputControl()
         this.createNewTetry()
+
+        this.pointLabel.string = this.point
+    },
+
+    addPoint(){
+        this.point += 1
+        this.pointLabel.string = this.point
     },
 
     initLocationArray(){
