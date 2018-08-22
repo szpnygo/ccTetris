@@ -8,6 +8,8 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 var Global = require('Global');
+var Queue = require('Queue');
+
 cc.Class({
     extends: cc.Component,
 
@@ -27,13 +29,26 @@ cc.Class({
 
         pointLabel: cc.Label,
         point:0,
+
+        queue:null,
+
+        nextLabel:cc.Label,
+        nextTitle:"",
     },
 
     onLoad () {
         this.tetryHeight = Math.floor(this.mainView.height/64)-2
 
+        this.queue = new Queue(20)
+        if(this.queue.size() < 20){
+            for(var i =0;i < 20;i++){
+                this.queue.push(Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)])
+            }
+        }
+
+        this.nextTitle = this.queue.pop()
+
         this.initLocationArray()
-        console.log(this.lArray)
         Global.gameObj = this.node.getComponent('Game')
 
         this.baseLineY = this.border.y
@@ -52,6 +67,16 @@ cc.Class({
         this.pointLabel.string = this.point
     },
 
+    getTitle(){
+        return this.nextTitle
+    },
+
+    showNextTitle(){
+        this.nextTitle = this.queue.pop()
+        this.nextLabel.string = this.nextTitle
+        this.queue.push(Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)])
+    },
+
     initLocationArray(){
         this.lArray = new Array(this.tetryHeight)
         for(var i =0; i< this.tetryHeight;i++){
@@ -60,14 +85,6 @@ cc.Class({
                 this.lArray[i][j] = null
             }
         }
-    },
-
-    start () {
-
-    },
-
-    update (dt) {
-
     },
 
     tetryStop(){
@@ -104,5 +121,6 @@ cc.Class({
     clickRight: function(){
         let tetry = this.currentTetry.getComponent('Tetry')
         tetry.doRight()
-    }
+    },
+
 });

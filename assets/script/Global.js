@@ -36,6 +36,7 @@ let keyDictory = [
     '一','十','二','人','木','干','土','口'
 ]
 
+
 module.exports ={
     gameObj:null,
     dictory,

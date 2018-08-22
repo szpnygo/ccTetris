@@ -1577,6 +1577,11 @@
       "__id__": 20
     },
     "point": 0,
+    "queue": null,
+    "nextLabel": {
+      "__id__": 22
+    },
+    "nextTitle": "",
     "_id": "50Mcku6CZBkanK9DmUBoKh"
   }
 ]

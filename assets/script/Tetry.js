@@ -29,8 +29,9 @@ cc.Class({
     onLoad () {
         this.initY = this.node.y
 
-        this.mTitleKey = Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)]
+        this.mTitleKey = Global.gameObj.getTitle()
         this.title.string = this.mTitleKey
+        Global.gameObj.showNextTitle()
     },
 
     start () {
