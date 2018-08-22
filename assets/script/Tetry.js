@@ -127,7 +127,7 @@ cc.Class({
             })
 
             //颜色一样，进行合并
-            let seq = cc.sequence(cc.moveTo(0.2, cc.p(tetryNode.node.x, tetryNode.node.y)), moveFinsih);
+            let seq = cc.sequence(cc.moveTo(0.2, cc.v2(tetryNode.node.x, tetryNode.node.y)), moveFinsih);
             this.node.runAction(seq)
             return true
         }
