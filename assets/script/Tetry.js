@@ -76,7 +76,7 @@ cc.Class({
                 this.getAroundTetry()
                 Global.gameObj.tetryStop();
             }else{
-                console.log("game over");
+                // cc.director.loadScene('welcome');
             }
         }
     },
