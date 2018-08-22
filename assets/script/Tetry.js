@@ -78,13 +78,12 @@ cc.Class({
             
             this.isOver = true;
 
-            this.tx = Math.floor((this.initY - this.node.y)/this.node.height) - 1
-            console.log(this.tx)
-            console.log(this.ty)
+            this.tx = Math.floor((this.initY - 96 - this.node.y)/this.node.height) - 1
+            console.log(this.tx,this.ty)
             Global.gameObj.lArray[this.tx][this.ty] = this
             if(this.tx != 0){
                 this.node.x = (this.ty - 3) * this.node.width
-                this.node.y = Global.gameObj.baseLineY + (10-this.tx) * this.node.height - this.node.height/2;
+                this.node.y = Global.gameObj.baseLineY + (Global.gameObj.tetryHeight - 1 -this.tx) * this.node.height;
                 this.getAroundTetry()
                 Global.gameObj.tetryStop();
             }else{
@@ -137,7 +136,7 @@ cc.Class({
 
     getAroundTetry(){
         //bottom
-        if(this.tx != 9){
+        if(this.tx != Global.gameObj.tetryHeight - 1){
             if(this.checkAround(this.tx + 1,this.ty)){
                 return 
             }

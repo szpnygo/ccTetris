@@ -17,18 +17,24 @@ cc.Class({
             type: cc.Prefab,
             default: null
         },
-        lArray: Array,
+        lArray:Array,
         initY:0,
         border: cc.Node,
         baseLineY:0,
+        mainView: cc.Node,
+
+        tetryHeight:8,
     },
 
     onLoad () {
-        Global.gameObj = this.node.getComponent('Game')
+        this.tetryHeight = Math.floor(this.mainView.height/64)-2
+
         this.initLocationArray()
+        console.log(this.lArray)
+        Global.gameObj = this.node.getComponent('Game')
 
         this.baseLineY = this.border.y
-        this.initY = this.baseLineY + 11 * 80
+        this.initY = this.baseLineY + this.tetryHeight * 64 + 96
 
         cc.director.getCollisionManager().enabled = true;
 
@@ -37,8 +43,8 @@ cc.Class({
     },
 
     initLocationArray(){
-        this.lArray = new Array(10)
-        for(var i =0; i< 10;i++){
+        this.lArray = new Array(this.tetryHeight)
+        for(var i =0; i< this.tetryHeight;i++){
             this.lArray[i] = new Array(7)
             for(var j=0; j<7;j++){
                 this.lArray[i][j] = null
