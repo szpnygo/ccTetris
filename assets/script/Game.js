@@ -39,7 +39,7 @@ cc.Class({
     initLocationArray(){
         this.lArray = new Array(10)
         for(var i =0; i< 10;i++){
-            this.lArray[i] = new Array(5)
+            this.lArray[i] = new Array(7)
             for(var j=0; j<7;j++){
                 this.lArray[i][j] = null
             }

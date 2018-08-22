@@ -79,6 +79,8 @@ cc.Class({
             this.isOver = true;
 
             this.tx = Math.floor((this.initY - this.node.y)/this.node.height) - 1
+            console.log(this.tx)
+            console.log(this.ty)
             Global.gameObj.lArray[this.tx][this.ty] = this
             if(this.tx != 0){
                 this.node.x = (this.ty - 3) * this.node.width
