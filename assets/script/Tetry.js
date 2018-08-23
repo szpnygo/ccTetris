@@ -19,7 +19,6 @@ cc.Class({
         canRightMove:true,
         tx:0,
         ty:3,
-        initY:0,
         hasY:3,
         color:0,
         title:cc.Label,
@@ -27,8 +26,6 @@ cc.Class({
     },
 
     onLoad () {
-        this.initY = this.node.y
-
         this.mTitleKey = Global.gameObj.getTitle()
         this.title.string = this.mTitleKey
         Global.gameObj.showNextTitle()
@@ -66,13 +63,12 @@ cc.Class({
         if(!this.isOver){
             
             this.isOver = true;
+            this.tx = Global.gameObj.tetryHeight - Math.round(Math.abs((this.node.y - Global.gameObj.border.y)/this.node.height)) - 1
 
-            this.tx = Math.floor((this.initY - 90 - this.node.y)/this.node.height) - 1
-            console.log(this.tx,this.ty)
             Global.gameObj.lArray[this.tx][this.ty] = this
             if(this.tx != 0){
                 this.node.x = (this.ty - 3) * this.node.width
-                this.node.y = Global.gameObj.baseLineY + (Global.gameObj.tetryHeight - 1 -this.tx) * this.node.height;
+                this.node.y =  Global.gameObj.border.y + (Global.gameObj.tetryHeight - 1 -this.tx) * this.node.height;
                 this.getAroundTetry()
                 Global.gameObj.tetryStop();
             }else{

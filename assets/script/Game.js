@@ -23,7 +23,6 @@ cc.Class({
         initY:0,
         border: cc.Node,
         baseLineY:0,
-        mainView: cc.Node,
 
         tetryHeight:8,
 
@@ -37,7 +36,8 @@ cc.Class({
     },
 
     onLoad () {
-        this.tetryHeight = Math.floor(this.mainView.height/64)-2
+        this.tetryHeight = Math.floor((this.node.height - 300) / 64)
+        console.log("tetryHeight:",this.tetryHeight)
 
         this.queue = new Queue(20)
         if(this.queue.size() < 20){
@@ -50,9 +50,6 @@ cc.Class({
 
         this.initLocationArray()
         Global.gameObj = this.node.getComponent('Game')
-
-        this.baseLineY = this.border.y
-        this.initY = this.baseLineY + this.tetryHeight * 64 + 96
 
         cc.director.getCollisionManager().enabled = true;
 
@@ -94,7 +91,7 @@ cc.Class({
     createNewTetry(){
         let tetry = cc.instantiate(this.tetryPrefab)
         tetry.x = 0
-        tetry.y = this.initY
+        tetry.y = this.border.y + this.tetryHeight * 64 + 96
         tetry.parent = this.node
         this.currentTetry = tetry
     },
