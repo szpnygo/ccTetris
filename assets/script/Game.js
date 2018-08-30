@@ -15,6 +15,7 @@ cc.Class({
 
     properties: {
         tetryPrefab: cc.Prefab,
+        gameLabel: cc.Prefab,
         currentTetry: {
             type: cc.Prefab,
             default: null
@@ -33,16 +34,24 @@ cc.Class({
 
         nextLabel:cc.Label,
         nextTitle:"",
+
+        textResult:null,
+
+        textLayout:cc.Layout
     },
 
     onLoad () {
         this.tetryHeight = Math.floor((this.node.height - 300) / 64)
         console.log("tetryHeight:",this.tetryHeight)
 
-        this.queue = new Queue(20)
-        if(this.queue.size() < 20){
-            for(var i =0;i < 20;i++){
-                this.queue.push(Global.keyDictory[Math.floor(Math.random() * Global.keyDictory.length)])
+        Global.keyDictory.sort(function() {
+            return .5 - Math.random();
+        })
+
+        this.queue = new Queue(Global.keyDictory.length)
+        if(this.queue.size() < Global.keyDictory.length){
+            for(var i =0;i < Global.keyDictory.length;i++){
+                this.queue.push(Global.keyDictory[i])
             }
         }
 
@@ -57,6 +66,93 @@ cc.Class({
         this.createNewTetry()
 
         this.pointLabel.string = this.point
+
+        //test
+
+        // let tongji = []
+
+        // let dictory = Global.dictory
+        // for(let key in dictory){
+        //     if(!tongji[key[0]]){
+        //         tongji[key[0]] = 1
+        //     }else{
+        //         tongji[key[0]] += 1
+        //     }
+        //     if(!tongji[key[1]]){
+        //         tongji[key[1]] = 1
+        //     }else{
+        //         tongji[key[1]] += 1
+        //     }
+        // }
+        // var tongji2 = Object.keys(tongji).sort(
+        //     function(a, b){
+        //         return tongji[b] - tongji[a];
+        //     }
+        // );
+
+        // //统计key中的字出现次数
+        // for(let key in tongji2){
+        //     console.log(tongji2[key]+"=>"+tongji[tongji2[key]])
+        // }
+
+        // console.log("=========")
+        // console.log("=========")
+        // console.log("=========")
+        // console.log("=========")
+        // console.log("=========")
+
+        // let tongji3 = []
+
+        // //统计值在key中的出现次数，就是二次利用的概率
+        // for(let key in dictory){
+        //     // console.log(dictory[key] + "==" + tongji[dictory[key]])
+        //     if(tongji[dictory[key]]){
+        //         tongji3[dictory[key]] = tongji[dictory[key]]
+        //     }else{
+        //         tongji3[dictory[key]] = 0
+        //     }
+        // }
+
+        // var tongji4 = Object.keys(tongji3).sort(
+        //     function(a, b){
+        //         return tongji3[b] - tongji3[a];
+        //     }
+        // );
+
+        // for(let key in tongji4){
+        //     console.log(tongji4[key]+"=="+tongji3[tongji4[key]])
+        // }
+
+
+        // 当你能飞的时候就不要放弃飞。当你能梦的时候就不要放弃梦
+        this.textResult = []
+
+        let str = "当你能飞的时候就不要放弃飞。"
+        for(let key in str){
+            console.log(str[key])
+            this.textResult[key] = this.createLabel(str[key])
+        }
+    },
+
+    createLabel(text){
+        let label = cc.instantiate(this.gameLabel)
+        let component = label.getComponent('GameLabel')
+        component.setDataText(text)
+
+        label.parent = this.textLayout.node
+
+        return component
+    },
+
+    checkResult(text){
+        for(let key in this.textResult){
+            console.log("check result " + text)
+            let com = this.textResult[key]
+            // .getComponent('GameLabel')
+            if(com.checkText(text)){
+                break
+            }
+        }
     },
 
     addPoint(){

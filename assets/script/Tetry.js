@@ -89,7 +89,6 @@ cc.Class({
         let key1 = tetry.mTitleKey+this.mTitleKey
         let key2 = this.mTitleKey + tetry.mTitleKey
 
-        console.log(key1 + "->" + key2)
         let useKey = null
         if(Global.dictory[key1] == undefined){
             if(Global.dictory[key2] != undefined){
@@ -107,7 +106,6 @@ cc.Class({
 
                 Global.gameObj.lArray[that.tx][that.ty] = null
                 that.node.destroy()
-                console.log("check again")
                 tetry.getAroundTetry()
             })
 
@@ -115,8 +113,10 @@ cc.Class({
             let seq = cc.sequence(cc.moveTo(0.2, cc.v2(tetryNode.node.x, tetryNode.node.y)), moveFinsih);
             this.node.runAction(seq)
             Global.gameObj.addPoint()
+            Global.gameObj.checkResult(Global.dictory[useKey])
             return true
         }
+
         return false
     },
 
@@ -139,6 +139,7 @@ cc.Class({
                 return 
             }
         }
+        Global.gameObj.checkResult(this.mTitleKey)
     },
 
     onCollisionExit: function (other, self) {
